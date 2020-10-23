@@ -1,0 +1,180 @@
+﻿<Page
+    x:Class="UwpApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UwpApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    
+    d:Width="1200"
+    d:Height="600"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <!-- Öppna fil
+     * Läsa dess innehåll
+     *    File picker
+     * TXT, JSON, CSV, XML
+     * Visa information i lista
+     * 
+     * - VG -
+     * Skapa en fil (csv, txt, xml, json)
+     * Fylla i olika fält i app
+     * Läsa alla filformat och lista i ListView -->
+
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        
+        <!-- Vänster sida -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="15">
+            <TextBlock Text="File path" FontSize="18"/>
+            <TextBox x:Name="tbPathToFile" IsReadOnly="True" Padding="10" 
+                     Background="#66AEAEAE" Foreground="#FF474747">
+                
+                <!-- Personlig hover-design för att efterlikna "disabled" -->
+                <TextBox.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.ThemeDictionaries>
+                            <ResourceDictionary x:Key="Light">
+                                <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="#FF474747"/>
+                                <SolidColorBrush x:Key="TextControlForegroundFocused" Color="#FF474747"/>
+                                <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#66AEAEAE"/>
+                                <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#66AEAEAE"/>
+                                <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#66000000"/>
+                                <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#66000000"/>
+                            </ResourceDictionary>
+                        </ResourceDictionary.ThemeDictionaries>
+                    </ResourceDictionary>
+                </TextBox.Resources>
+                <!-- Personlig hover-design för att efterlikna "disabled" -->
+            </TextBox>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="15">
+                <Button x:Name="btnBrowseFiles" Click="btnBrowseFiles_Click"
+                        Content="Select file" Margin="5" Padding="5"/>
+                <Button x:Name="btnLoadFile" Click="btnLoadFile_Click"
+                        Content="Load file" Margin="5" Padding="5"/>
+            </StackPanel>
+            
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="15">
+            <TextBlock FontSize="18" FontWeight="Bold" Text="Imported file content"/>
+            <ListView ItemsSource="{x:Bind importedPeopleList}">
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                            <Button x:Name="btnRemoveImportItem" Click="btnRemoveImportItem_Click"
+                                    Content="X" />
+
+                            <TextBlock Padding="10" ToolTipService.ToolTip="First name" Text="{Binding FirstName}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Last name" Text="{Binding LastName}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Age" Text="{Binding Age}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Street address" Text="{Binding StreetAddress}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Zip code" Text="{Binding ZipCode}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="City" Text="{Binding City}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+        </StackPanel>
+
+        <Button x:Name="btnClearImportedList" Click="btnClearImportedList_Click" 
+            HorizontalAlignment="Center" Margin="15" Padding="10" 
+            Content="Clear list" Grid.Row="2" Grid.Column="0" />
+
+
+            <!-- Höger sida -->
+        <Grid Grid.Row="0" Grid.Column="1" Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0, 0, 10, 0">
+                <TextBox TabIndex="0" x:Name="tbFirstName" Header="First name"/>
+                <TextBox TabIndex="3" x:Name="tbStreetAddress" Header="Street address"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="0, 0, 10, 0">
+                <TextBox TabIndex="1" x:Name="tbLastName" Header="Last name"/>
+                <TextBox TabIndex="4" x:Name="tbCity" Header="City"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Margin="0, 0, 10, 0">
+                <TextBox TabIndex="2" x:Name="tbAge" Header="Age" />
+                <TextBox TabIndex="5" x:Name="tbZipCode" Header="Zip code"/>
+            </StackPanel>
+
+
+            <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Margin="10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="btnAddToList" Click="btnAddToList_Click"
+                            Content="Add to list" Margin="5" Padding="5" 
+                            TabIndex="6" />
+                    <Button x:Name="btnClearInput" Click="btnClearInput_Click"
+                            Content="Clear" Margin="5" Padding="5" 
+                            TabIndex="7" />
+                </StackPanel>
+
+                <TextBlock Text="Data is saved precisely as it is entered." 
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                       Grid.ColumnSpan="3" FontStyle="Italic" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="15">
+            <TextBlock FontSize="18" FontWeight="Bold" Text="List of data to export"/>
+            <ListView ItemsSource="{x:Bind peopleToExport}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                            <Button x:Name="btnRemoveExportItem" Click="btnRemoveExportItem_Click" 
+                                    Content="X"/>
+
+                            <TextBlock Padding="10" ToolTipService.ToolTip="First name" Text="{Binding FirstName}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Last name" Text="{Binding LastName}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Age" Text="{Binding Age}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Street address" Text="{Binding StreetAddress}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="Zip code" Text="{Binding ZipCode}"/>
+                            <TextBlock Padding="10" ToolTipService.ToolTip="City" Text="{Binding City}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </StackPanel>
+
+        <TextBlock x:Name="tbFileSaveStatus" Text="" 
+                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="15" Padding="10" 
+                   HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btnExportList" Click="btnExportList_Click"
+                    Margin="15" Padding="10" Content="Export list to file"/>
+            <Button x:Name="btnClearExportList" Click="btnClearExportList_Click"
+                    Margin="15" Padding="10" Content="Clear list"/>
+        </StackPanel>
+        
+    </Grid>
+</Page>
