@@ -152,7 +152,7 @@ namespace UwpApp.Services
 
             await FileIO.WriteTextAsync(file, data, Windows.Storage.Streams.UnicodeEncoding.Utf8);
 
-            // Slutför filändringar och kolla om filen existerar
+            // Slutför filändringar
             var status = await CachedFileManager.CompleteUpdatesAsync(file);
 
             // Uppdatera informationsruta i UI
